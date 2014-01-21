@@ -1,0 +1,64 @@
+<% unless @yearly_settings && @yearly_settings.started %>
+  <div class="box_sec">
+    <div class="title">
+      <h3>Leave Types</h3>
+      <span><%= link_to "New type", new_lms_leave_type_path, :remote => true, :id => 'new_leave_type_link' %></span>
+    </div>
+    <div style="clear:both"></div>
+    <% if @leave_types.present? %>
+      <div class="content">
+        <table>
+        	<tr>
+        	  <th>Name</th>
+        	  <th>Days</th>
+        	  <th>Period</th>
+        	  <!--<th>Accountable</th>-->
+  	  <th>?</th>
+        	</tr>
+    	<% @leave_types.each do |t| %>
+        	<tr class="<%= cycle('odd', 'even') %>">
+        	  <td><%= t.name %></td>
+        	  <td><%= t.days %></td>
+        	  <td><%= LmsLeaveType::PERIODS.detect {|p| p[0] == t.period}[1] %></td>
+        	  <!--<td><%= t.accountable ? 'Yes' : 'No' %></td>-->
+  	  <td>
+  	    <% if is_activated_current_year?(t) %>
+  	      <%= link_to 'Deactivate', deactivate_lms_leave_type_path(t), :remote => true %>&nbsp;<%= link_to 'Edit', edit_lms_leave_type_path(t), :remote => true %>
+  	    <% else %>
+  	      <% if @yearly_settings %><%= link_to 'Activate', activate_lms_leave_type_path(t), :remote => true %>&nbsp;<% end %><%= link_to 'Edit', edit_lms_leave_type_path(t), :remote => true %><% unless was_activated_past_years?(t) %>&nbsp;<%= link_to 'Delete', lms_leave_type_path(t), :method => :delete, :confirm => "If you delete it then it'll delete all the leaves, are you sure?", :remote => true %><% end %>
+  	    <% end %>
+  	  </td>
+        	</tr>
+    	<% end %>
+        </table>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="box_sec">
+    <div class="title">
+      <h3>Leave Types</h3>
+    </div>
+    <div style="clear:both"></div>
+    <% if @active_leave_types.present? %>
+      <div class="content">
+        <table>
+        	<tr>
+        	  <th>Name</th>
+        	  <th>Days</th>
+        	  <th>Period</th>
+        	  <!--<th>Accountable</th>-->
+        	</tr>
+    	<% @active_leave_types.each do |t| %>
+        	<tr class="<%= cycle('odd', 'even') %>">
+        	  <td><%= t.name %></td>
+        	  <td><%= t.days %></td>
+        	  <td><%= LmsLeaveType::PERIODS.detect {|p| p[0] == t.period}[1] %></td>
+        	  <!--<td><%= t.accountable ? 'Yes' : 'No' %></td>-->
+        	</tr>
+    	<% end %>
+        </table>
+      </div>
+    <% end %>
+  </div>
+<% end %>

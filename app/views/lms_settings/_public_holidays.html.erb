@@ -1,0 +1,25 @@
+  <div class="box_sec">
+    <div style="clear:both"></div>
+    <% if @public_holidays.present? %>
+      <div class="content">
+        <table>
+        	<tr>
+        	  <th>Occasion name</th>
+        	  <th>Date</th>
+  	  <th>?</th>
+        	</tr>
+    	<% @public_holidays.each do |h| %>
+        	<tr class="<%= cycle('odd', 'even') %>">
+        	  <td><%= h.occ_name %></td>
+        	  <td><%= h.ph_date.strftime "%b %d, %Y" %></td>
+        	  <td><%= link_to 'Edit', edit_lms_public_holiday_path(h), :remote => true %>&nbsp;<%= link_to 'Remove', lms_public_holiday_path(h), :method => :delete, :confirm => "Is it not a public holiday?", :remote => true %></td>
+        	</tr>
+    	<% end %>
+        </table>
+      </div>
+    <% else %>
+      <div class="content">
+        <p class="nodata">No holidays</p>
+      </div>
+    <% end %>
+  </div>

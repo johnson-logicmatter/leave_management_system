@@ -1,0 +1,67 @@
+<%= render :partial => "/partials/top_menu" %>
+<% 
+  will_be_carry_forwarded = @yearly_settings.carry_forward
+  leaves_taken_cols = 2+@active_leave_types.count+(will_be_carry_forwarded ? 1 : 0)
+  available_leaves_cols = 1+@active_leave_types.count+(will_be_carry_forwarded ? 1 : 0)
+%>
+<div style="margin:20px 20px;" class="lms_box_wrapper">
+  <%= render :partial => 'menu' %>
+  <div class="content">
+    <div style="text-align:center;padding:20px 0 10px 0;" class="period">
+      <div style="text-align:center;" class="title">
+    <h3 style='float:left;padding:0 15px 0 30px;color:#555;'><%= Date.civil(@year.to_i, @month.to_i).strftime('%Y') %> Report</h3>
+  </div>
+  <div style="float:left;">
+    <%= form_tag "/lms_reports/year", {:method => :get, :id => 'lms_report'} do |f| %>
+    Year <%= select_tag :year, options_for_select(@years, @year), :onchange => "$('#lms_report').submit();" %>
+    <% end %>
+    </div>
+    </div>
+    <div style="clear:both;padding:0 30px;" class="report_wrapper">
+      <% if @leave_histories.present? %>
+        <table>
+          <tr>
+            <th rowspan=2>Employee Name</th>
+            <th colspan=<%= leaves_taken_cols %>>Leaves Taken</th>
+  	  <th colspan=<%= leaves_taken_cols - 1 %>>Available Leaves</th>
+  	  <% if @yearly_settings.work_from_home %><th colspan=2>WFH</th><% end %>
+  	  <th rowspan=2>Details</th>
+          </tr>
+    
+          <tr>
+            <% if will_be_carry_forwarded %><th class="sub_heading">Carry Forward</th><% end %>
+  	  <% @active_leave_types.each do |lt| %><th class="sub_heading"><%= lt.name %></th><% end %>
+  	  <th class="sub_heading">LOP</th>
+  	  <th class="sub_heading">Total</th>
+  	  <% if will_be_carry_forwarded %><th class="sub_heading">Carry Forward</th><% end %>
+  	  <% @active_leave_types.each do |lt| %><th class="sub_heading"><%= lt.name %></th><% end %>
+  	  <th class="sub_heading">Total</th>
+	  <% if @yearly_settings.work_from_home %>
+  	    <th class="sub_heading">Used</th>
+  	    <th class="sub_heading">Total</th>
+	  <% end %>
+          </tr>
+          <% @leave_histories.each do |lh| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td><%= lh.emp_name %></td>
+  	  <% if will_be_carry_forwarded %><td><%= truncate_trailing_zero(lh.ded_carry_forward) %></td><% end %>
+  	  <% @active_leave_types.each do |lt| %><td><%= truncate_trailing_zero(lh.send("ded_#{lt.identifier}")) %></td><% end %>
+  	  <td><%= truncate_trailing_zero(lh.lop) %></td>
+  	  <td><%= truncate_trailing_zero((lh.total_leaves_taken + lh.lop)) %></td>
+  	  <% if will_be_carry_forwarded %><td><%= truncate_trailing_zero((lh.tot_carry_forward - lh.ded_carry_forward)) %><% end %>
+  	  <% @active_leave_types.each do |lt| %><td><%= truncate_trailing_zero((lh.send("tot_#{lt.identifier}") - lh.send("ded_#{lt.identifier}"))) %></td><% end %>
+  	  <td><%= truncate_trailing_zero((lh.total_leaves - lh.total_leaves_taken)) %></td>
+	  <% if @yearly_settings.work_from_home %>
+  	    <td><%= truncate_trailing_zero(lh.ded_wfh) %></td>
+  	    <td><%= truncate_trailing_zero(lh.acc_wfh) %></td>
+	  <% end %>
+  	  <td><%= link_to 'Details', year_detailed_lms_report_path(lh.user_id, @year), :remote => true %></td>
+          </tr>
+          <% end %>
+        </table>
+      <% else %>
+        <p class="nodata">No data</p>
+      <% end %>
+    </div>
+  </div>
+</div>

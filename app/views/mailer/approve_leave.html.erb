@@ -1,0 +1,23 @@
+<div style='width:99%; margin-bottom:20px; min-height:80px; background: #c4dbf2; border-radius: 2px; border:1px solid #3E5B76;'>
+  <div style='height:30px; background: url("http://<%= Setting.host_name %>/plugin_assets/leave_management_system/images/lm_150px.png") 10px 5px no-repeat #3E5B76; color: #fff; text-align: center; font-weight: bold; font-size: 18pt; padding-top: 5px;'>
+    Process <%= @leave_type.downcase %>
+  </div>
+  <div style='margin:10px;'>
+    <div>
+      Hi,
+    </div>
+    <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @approver.name %> has approved <%= truncate_trailing_zero @leave.no_of_days %> day(s) <%= @leave_type.downcase %> applied by <%= @applier.name %> for following dates. Reason is <b>"<%= @leave.reason %>"</b>. Please process this.
+    </div><br/>
+    <div>
+      Dates are:<br/>
+      <% @leave.leave_dates_object.each do |ldate| %>
+        <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %><br/>
+      <% end %>
+    </div><br/>
+    <div>
+      <div style='float:left; font-weight:bold; margin-left:30px; padding: 3px 10px; background: #0d741e; border-radius: 2px; border: 1px solid #063a0f;'><a href=<%= "http://#{Setting.host_name}#{proces_lms_leafe_path(@leave.id)}" %> style="color: #fff; text-decoration: none;">Process</a></div>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+</div>

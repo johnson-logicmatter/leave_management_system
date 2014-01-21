@@ -1,0 +1,16 @@
+<div id="lms_top_menu">
+  <ul>
+    <li class="<%= controller_name=='lms_dashboards' ? 'active' : '' %>"><%= link_to(l(:label_lms_dashboard), lms_dashboards_path) %></li>
+    <% if LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:dt]) %>
+      <li class="<%= ['lms_settings', 'lms_leave_accounts'].include?(controller_name) ? 'active' : '' %>"><%= link_to(l(:label_lms_settings), lms_settings_path) %></li>
+    <% end %>
+    <% if LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:dt]) || LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:rt]) %>
+      <li class="<%= controller_name=='lms_reports' ? 'active' : '' %>"><%= link_to(l(:label_lms_report), ytd_lms_reports_path) %></li>
+    <% end %>
+  </ul>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag :lms, :zebra_datepicker, :plugin => 'leave_management_system' %>
+  <%= javascript_include_tag :lms, :zebra_datepicker, :plugin => 'leave_management_system' %>  
+<% end %>

@@ -1,0 +1,46 @@
+<%= render :partial => "/partials/top_menu" %>
+<div id="lms_box1" class="lms_box">
+  <div class="box_title">
+    <% if @yearly_settings.present? %><div id="new_public_holiday_link"><%= link_to "Add Holiday", new_lms_public_holiday_path, :remote => true %></div><% end %>
+    <h2>Public Holidays 2013</h2>
+  </div>
+  <div class="box_content">
+    <div id="public_holidays_frame">
+      <%= render :partial => "public_holidays" %>
+    </div>
+  </div>
+</div>
+
+<div id="lms_box2" class="lms_box">
+  <div class="box_title"><h2>Leave types & <%= Date.today.year %> settings</h2></div>
+  <div class="box_content">
+    <div id="lms-accounts-menu">
+      <%= start_present_year_leave_tracking %>
+    </div>
+    <div id="leave_types_frame">
+      <%= render :partial => "lms_leave_types/leave_types" %>
+    </div>
+    <div class="box_sec">
+      <div class="title">
+        <h3>Leave Settings</h3>
+	<span></span>
+      </div>
+      <div style="clear:both"></div>
+      <div class="content" id='leave-settings-wrapper'>
+	<%= render :partial => "generic_settings" %>
+      </div>
+    </div>
+    <div class="box_sec">
+      <div class="title">
+        <h3>Roles</h3>
+	<span></span>
+      </div>
+      <div style="clear:both"></div>
+      <div class="content" id='lms-roles-wrapper'>
+	<%= render :partial => "roles" %>
+      </div>
+    </div><br/>
+    <div>
+    </div>
+  </div>
+</div>

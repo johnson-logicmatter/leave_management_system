@@ -1,0 +1,72 @@
+== Leave Management System (LMS) - Redmine Plugin
+	LMS is a Redmine Plugin used to manage employees leave account of an employer
+	=== Versions
+		* 0.0.1
+	=== Supported in
+		* Redmine - 2.1.x
+		* Ruby - 1.9.2
+	=== Repository: https://github.com/johnson-johnson/leave_management_system
+	
+== How to install 
+	=== Download and extract or clone the LMS redmine plugin in the redmine app's plugins folder '{redmine_app}/plugins'
+		* cd {redmine_app}/plugins
+		* git clone https://github.com/johnson-johnson/leave_management_system.git leave_management_system
+	=== Run the migrations
+		* rake redmine:plugins:migrate NAME=leave_management_system RAILS_ENV=production
+	=== Restart the server
+
+== How to uninstall
+	=== Rollback the migrations
+		* rake redmine:plugins:migration NAME=leave_management_system VERSION=0 RAILS_ENV=production
+	=== Remove the redmine_leave_management_system plugins folder from redmine app's plugins folder
+	=== Restart the server
+
+== Configuring LMS
+	=== Defining the role based access to LMS
+		* Login as administrator
+		* Go to Leave Management System plugin settings, click Administrator -> Plugins -> (Leave Management System plugin) Configure
+		* Select the groups of users for each appropriate roles and save it. Users who are having deduct leaves role can only modify the settings of the LMS like Adding leave types, generating leave accounts, adding public holidays, deducting the leaves, etc.
+		
+	=== Configuring LMS
+		* Login with deduct leave role
+		* Add/Edit/Delete leave types (Medical leave, Casual Leave, etc.)
+		* Generate leave accounts - It will create leave accounts for all users who are added to apply leave role for current year 
+		* After leave accounts generated, activate/deactivate leave types wants for current year
+		* Modify general settings as you need - Work from home policy, carry forwarding, weekends
+		* Add public holidays of current year
+		* Finally click Start Tracking link. Until click Start Tracking, no one can apply leave. After LMS started tracking, you can't change any of the current year settings
+		
+== Features
+	=== LMS Configuration
+		* Different roles - Leave appliers, approvers, deductors and reports;
+		* Can add group of users to any of these roles.
+		* Appliers can apply leaves.
+		* Approvers can approve the leaves.
+		* Deductors can modify LMS settings and can deduct the approved leaves from employee leave account.
+		* Reporters can view the leave histories - taken leaves and available leaves, leave details etc. - of all employees
+		* Automatically generate leave account for an employee from current month till year end when an employee will be added to applier groups in redmine.
+	=== LMS Settings
+		* Leave types - create/edit/delete any leave type like Medical leave, Casual leave, etc.
+		* General Settings - Work from home policy, carry forward policy, weekends
+		* Generate Leave accounts - While generating leave accounts, LMS will generate leave accounts from current month till year end and add/remove leave types to/from current year leave account.
+		* Manage leave accounts.
+		* Public Holidays.
+		* Start LMS - It tells LMS to allow employees to apply leaves. Unless you start LMS, no one can apply leaves. Afterwards you can't change any of the LMS settings.
+	=== LMS Dashboard
+		* Current year leave summary - total leaves taken, available leaves, number of LOP, work from home details if applicable
+		* Public holidays list
+		* Own dashboard and others dashboard where other employees leave histories are shown.
+		* Current year leave histories - pending, approved, cancelled, rejected leaves
+		* Apply leave/work from home - System silently discards the public holidays and weekends when you apply leave.
+		* Notify other employees also about applying leave via email.
+		* Cancel leave
+		* Reject leave
+		* Approve leave
+		* Deduct apporved leaves from leave account
+		* System will automatically email concerned employees when applying/cancelling/rejecting/approving/deducting leaves.
+	=== LMS Reports
+		* Monthly detailed leave history report of all employees
+		* YTD detailed leave history report of all employees
+		* Yearly detailed leave history report of all employees
+		
+		

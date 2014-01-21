@@ -1,0 +1,13 @@
+<%= back_url_hidden_field_tag %>
+<%= error_messages_for @public_holiday %>
+<div class="box tabular">
+  <p><%= f.text_field :occ_name, :size => 10, :required => true %></p>
+  <p><%= f.text_field :ph_date, :size => 10, :required => true %></p>
+</div>
+<script>
+$('#lms_public_holiday_ph_date').Zebra_DatePicker({
+	direction: [translate_to_string(cYFDate), translate_to_string(cYLDate)],
+	show_clear_date: true,
+	start_date: translate_to_string(new Date())
+});
+</script>

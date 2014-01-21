@@ -1,0 +1,20 @@
+# English strings go here for Rails i18n
+en:
+ label_leave_management_system: Leave Management System
+ label_lms_dashboard: Dashboard
+ label_lms_settings: Settings
+ label_lms_report: Report
+ field_reported_to: Reporting Manager
+ field_notificants: Notificants
+ field_from_date: From date
+ field_to_date: To date
+ field_no_of_days: Number of days
+ field_reason: Reason
+ field_ded_carry_forward: ''
+ field_days: Days
+ field_period: Period
+ field_lop: LOP
+ field_leave_category: Type
+ field_occ_name: Occasion name
+ field_ph_date: Date
+ button_process: Process

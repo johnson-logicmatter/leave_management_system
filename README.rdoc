@@ -1,0 +1,82 @@
+= leave_management_system
+
+This is a redmine plugin helps to manage employees leave account of an employer
+
+== How to install 
+
+1. Download and extract or clone the LMS redmine plugin in the redmine app's plugins folder '{redmine_app}/plugins'
+
+* cd {redmine_app}/plugins
+* git clone https://github.com/johnson-johnson/leave_management_system.git leave_management_system
+
+2. Run the migrations
+
+* rake redmine:plugins:migrate NAME=leave_management_system RAILS_ENV=production
+
+3. Restart the server
+
+== How to uninstall
+
+1. Rollback the migrations
+
+* rake redmine:plugins:migration NAME=leave_management_system VERSION=0 RAILS_ENV=production
+
+2. Remove the redmine_leave_management_system plugins folder from redmine app's plugins folder
+
+3. Restart the server
+	
+== Features
+
+=== LMS Configuration
+
+* Different roles - Leave appliers, approvers, deductors and reports;
+* Can add group of users to any of these roles.
+* Appliers can apply leaves.
+* Approvers can approve the leaves.
+* Deductors can modify LMS settings and can deduct the approved leaves from employee leave account.
+* Reporters can view the leave histories - taken leaves and available leaves, leave details etc. - of all employees
+* Automatically generate leave account for an employee from current month till year end when an employee will be added to applier groups in redmine.
+
+=== LMS Settings
+* Leave types - create/edit/delete any leave type like Medical leave, Casual leave, etc.
+* General Settings - Work from home policy, carry forward policy, weekends
+* Generate Leave accounts - While generating leave accounts, LMS will generate leave accounts from current month till year end and add/remove leave types to/from current year leave account.
+* Manage leave accounts.
+* Public Holidays.
+* Start LMS - It tells LMS to allow employees to apply leaves. Unless you start LMS, no one can apply leaves. Afterwards you can't change any of the LMS settings.
+
+=== LMS Dashboard
+* Current year leave summary - total leaves taken, available leaves, number of LOP, work from home details if applicable
+* Public holidays list
+* Own dashboard and others dashboard where other employees leave histories are shown.
+* Current year leave histories - pending, approved, cancelled, rejected leaves
+* Apply leave/work from home - System silently discards the public holidays and weekends when you apply leave.
+* Notify other employees also about applying leave via email.
+* Cancel leave
+* Reject leave
+* Approve leave
+* Deduct apporved leaves from leave account
+* System will automatically email concerned employees when applying/cancelling/rejecting/approving/deducting leaves.
+
+=== LMS Reports
+* Monthly detailed leave history report of all employees
+* YTD detailed leave history report of all employees
+* Yearly detailed leave history report of all employees
+
+== Changelog
+
+=== 0.0.1
+
+* First release
+
+=== Repository
+
+* https://github.com/johnson-johnson/leave_management_system
+
+=== WebPage
+
+* http://www.logicmatter.com
+
+=== License
+
+This software is licensed under the GNU GPL v2. See COPYRIGHT and COPYING for details. 

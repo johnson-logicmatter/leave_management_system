@@ -1,0 +1,14 @@
+<%= back_url_hidden_field_tag %>
+<%= error_messages_for @leave_type %>
+
+<div class="box tabular">
+<p><%= f.text_field :name, :size => 40, :required => true %></p>
+<p><%= f.text_field :days, :size => 5, :required => true %></p>
+<p><%= f.select :period, LmsLeaveType::PERIODS.collect {|p| [p[1], p[0]]}, :required => true %></p>
+<!--<p>
+  <%= label_tag :lms_leave_type_accountable, 'Accountable' %>
+  <%= f.radio_button :accountable, true, :checked => f.object.accountable ? true : false %>Yes
+  <%= f.radio_button :accountable, false, :checked => f.object.accountable ? false : true %>No
+</p>-->
+<p><%= f.text_field :identifier, :size => 10, :required => true, :disabled => @leave_type.identifier_frozen? %></p>
+</div>

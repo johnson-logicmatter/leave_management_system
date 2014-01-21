@@ -1,0 +1,6 @@
+<% if LmsLeaveCategory::WORK_FROM_HOME[@leave.leave_category_id] %>
+  $('#ajax-modal').html('<%= escape_javascript(render :partial => 'lms_leaves/proces_wfh_modal') %>');
+<% else %>
+  $('#ajax-modal').html('<%= escape_javascript(render :partial => 'lms_leaves/proces_modal') %>');
+<% end %>
+showModal('ajax-modal', '600px');

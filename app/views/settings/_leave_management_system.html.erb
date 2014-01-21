@@ -1,0 +1,60 @@
+<% groups = Group.all %>
+<% g_appliers = LeaveManagementSystem.allocated_groups('appliers') %>
+<% g_approvers = LeaveManagementSystem.allocated_groups('approvers') %>
+<% g_deductors = LeaveManagementSystem.allocated_groups('deductors') %>
+<% g_reporters = LeaveManagementSystem.allocated_groups('reporters') %>
+<div id='leave_management_system'>
+  <% if groups.present? %>
+    <div class='pluginSettingsLeftPane'>
+      <fieldset>
+        <legend><b>Who can apply leaves?</b></legend>
+          <fieldset>
+            <legend><%=l(:label_group).pluralize%></legend>
+            <div id='groups'>
+              <% groups.each do |g| %>
+    	    <div><%= check_box_tag 'settings[config][groups][appliers][]', g.id, g_appliers.include?(g.id.to_s) ? true : false %><%= g.name %></div>
+              <% end %>
+            </div>
+          </fieldset>
+      </fieldset>
+      <fieldset>
+        <legend><b>Who can approve leaves?</b></legend>
+          <fieldset>
+            <legend><%=l(:label_group).pluralize%></legend>
+            <div id='groups'>
+              <% groups.each do |g| %>
+    	    <div><%= check_box_tag 'settings[config][groups][approvers][]', g.id, g_approvers.include?(g.id.to_s) ? true : false %><%= g.name %></div>
+              <% end %>
+            </div>
+          </fieldset>
+      </fieldset>
+    </div>
+    <div class='pluginSettingsRightPane'>
+      <fieldset>
+        <legend><b>Who can deduct leaves?</b></legend>
+          <fieldset>
+            <legend><%=l(:label_group).pluralize%></legend>
+            <div id='groups'>
+              <% groups.each do |g| %>
+    	    <div><%= check_box_tag 'settings[config][groups][deductors][]', g.id, g_deductors.include?(g.id.to_s) ? true : false %><%= g.name %></div>
+              <% end %>
+            </div>
+          </fieldset>
+      </fieldset>
+      <fieldset>
+        <legend><b>Who can see reports?</b></legend>
+          <fieldset>
+            <legend><%=l(:label_group).pluralize%></legend>
+            <div id='groups'>
+              <% groups.each do |g| %>
+    	    <div><%= check_box_tag 'settings[config][groups][reporters][]', g.id, g_reporters.include?(g.id.to_s) ? true : false %><%= g.name %></div>
+              <% end %>
+            </div>
+          </fieldset>
+      </fieldset>
+    </div>
+  <% else %>
+    <p class="nodata">No Groups available. To continue configuration, you should have groups of users.</p>
+  <% end %>
+</div>
+<div style='clear:both;'></div>

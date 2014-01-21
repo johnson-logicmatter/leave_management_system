@@ -1,0 +1,48 @@
+<%= back_url_hidden_field_tag %>
+<%= error_messages_for @leave %>
+<% wfh_key = nil %>
+<div class="box tabular">
+<p>
+  <label for='lms_leave_category_id'><%= l(:field_leave_category) %><span class="required"> *</span></label>
+  <% LmsLeaveCategory::LEAVE_CATEGORIES.each do |key,value| %>
+    <%= f.radio_button :leave_category_id, key, :checked => key == (params[:lms_leave] ? params[:lms_leave][:leave_category_id].to_i : 1) ? true : false %><%= value %>
+  <% end %>
+  <% if @yearly_settings.work_from_home %>
+    <% LmsLeaveCategory::WORK_FROM_HOME.each do |key,value| %>
+      <%= f.radio_button :leave_category_id, key, :checked => key == (params[:lms_leave] ? params[:lms_leave][:leave_category_id].to_i : 1) ? true : false %><%= value %>
+    <% end %>
+  <% end %>
+</p>
+<p><label for='lms_leave_reported_to'><%= l(:field_reported_to) %><span class="required"> *</span></label><%= select_tag :lms_leave_reported_to, options_for_select(reporting_managers.collect {|e| [e.name, e.id]}.unshift(['-- select a manager --', '']), params[:lms_leave] && params[:lms_leave][:reported_to]), {:name => 'lms_leave[reported_to][]', :required => true} %></p>
+<p>
+  <%= f.text_field :notificants, :size => 10, :title => "Enter your team group email address and/or individual email addresses here, if you want to notify them." %>
+  <span class="lms_help" title="if you want to notify your team, enter your team group email address and/or individual email addresses seperated by comma (,)">&nbsp;</span>
+  <span class="bottom-input-hint">Enter email addresses seperated by comma (,)</span>
+</p>
+<p><%= f.text_field :from_date, :size => 10, :required => true %></p>
+<p><%= f.text_field :to_date, :size => 10, :required => true %></p>
+<p style='display:none;'>
+  <% if params[:lms_leave] && params[:lms_leave][:leave_dates_object] %>
+    <%= select_tag :lms_leave_leave_dates_object, options_for_select(params[:lms_leave][:leave_dates_object], params[:lms_leave][:leave_dates_object]), {:name => 'lms_leave[leave_dates_object][]', :multiple => true} %>
+  <% else %>
+    <%= select_tag :lms_leave_leave_dates_object, [], {:name => 'lms_leave[leave_dates_object][]', :multiple => true} %>
+  <% end %>
+</p>
+<p><%= f.text_field :no_of_days, :size => 5, :class => 'other_leaves', :required => true, :readonly => true %></p>
+<p><%= f.text_area :reason, :size => "40x5", :required => true %></p>
+<div id='leave_days'>
+  <% if params[:lms_leave] && params[:lms_leave][:leave_dates_object] %>
+    <% params[:lms_leave][:leave_dates_object].each do |date| %>
+      <div class='applied-dates'>
+	<span class='rack'><b><%= date.to_date.strftime('%a') %></b></span>
+        <span id='app-date' class='rack'><%= date %></span>
+	<span class='rack'>
+	  <div id='full-day' title="Full day" <%= date.match(/ :F$/) ? "class=active" : "onclick=full_day(this);" %>>F</div>
+	  <div id='half-day' title="Half day" <%= date.match(/ :H$/) ? "class=active" : "onclick=half_day(this);" %>>H</div>
+	</span>
+	<span id='rem-date' title="Remove date" onclick="remove_date(this);">x</span>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+</div>

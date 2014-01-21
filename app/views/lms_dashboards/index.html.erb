@@ -1,0 +1,58 @@
+<%= render :partial => "/partials/top_menu" %>
+<% today = Date.today %>
+<div class="dashboard">
+  <div id="lms_box1" class="lms_box"><%= render :partial => "lms_leaves/leave_history", :locals => {:today => today, :leaves => @leaves} %></div>
+<div id="lms_box2" class="lms_box">
+  <div class="box_title"><h2>Leave Summary <%= today.year %></h2></div>
+  <div class="box_content">
+    <% if @yearly_settings && @leave_summary %>
+      <div class="ls_row top-buttons">
+        <%= link_to 'Public Holidays', lms_public_holidays_path, :remote => true, :class => 'pub-holidays' %>
+        <% if @yearly_settings.started %><%= link_to 'Apply leave', new_lms_leafe_path, :remote => true, :class => 'apply_leave' %><% end %>
+      </div>
+    <% if @yearly_settings.carry_forward %>
+    <div class="ls_row">
+      <span class="lsr_col1">Carry forward</span>
+      <span class="lsr_col2">:</span>
+      <span class="lsr_col3"><%= truncate_trailing_zero(@leave_summary.ded_carry_forward) %> / <b><%= truncate_trailing_zero(@leave_summary.tot_carry_forward) %></b></span>
+    </div>
+    <% end %>
+    <% @active_leave_types.each do |lt| %>
+      <div class="ls_row">
+        <span class="lsr_col1"><%= lt.name %></span>
+        <span class="lsr_col2">:</span>
+        <span class="lsr_col3"><%= truncate_trailing_zero(@leave_summary.send("ded_#{lt.identifier}")) %> / <b><%= truncate_trailing_zero(@leave_summary.send("tot_#{lt.identifier}")) %></b></span>
+      </div>
+    <% end %>
+    <div class="ls_row">
+      <span class="lsr_col1">LOP</span>
+      <span class="lsr_col2">:</span>
+      <span class="lsr_col3"><%= truncate_trailing_zero(@leave_summary.lop) %></span>
+    </div>
+    <div class="ls_row">
+      <span class="lsr_col1">Total Leaves taken(including LOP)</span>
+      <span class="lsr_col2">:</span>
+      <span class="lsr_col3"><%= truncate_trailing_zero((@leave_summary.total_leaves_taken + @leave_summary.lop)) %></span>
+    </div>
+    <% if @yearly_settings.work_from_home %>
+    <div class="ls_row">
+      <span class="lsr_col1">Work from home</span>
+      <span class="lsr_col2">:</span>
+      <span class="lsr_col3"><%= truncate_trailing_zero(@present_month_leave_histories.ded_wfh) %> / <b><%= truncate_trailing_zero(@leave_summary.tot_wfh) %></b></span>
+    </div>
+    <% end %>
+    <div class="ls_row seperator"></div>
+    <div id="dashboard-notice" class="ls_row lsn_row">
+      <span  class="lsn_col1">
+        <ul>
+	  <li>You can apply leaves for current calendar year only.</li>
+	  <% if @yearly_settings.work_from_home %><li>Maximum <%= truncate_trailing_zero(@leave_summary.tot_wfh) %> day(s) work from home only allowed per month</li><% end %>
+	</ul>
+      </span>
+    </div>
+    <% else %>
+      <div class="ls_row">No Leave Summary Available This Year</div>
+    <% end %>
+  </div>
+</div>
+</div>

@@ -1,0 +1,49 @@
+<%= render :partial => "/partials/top_menu" %>
+<div id="lms_box3" class="lms_box">
+  <div class="box_title"><h2>Employees <%= Date.today.year %> Leave Account</h2></div>
+  <div class="box_content">
+    <div id="lms-accounts-menu">
+      <%= link_to 'Refresh', lms_leave_accounts_path %>
+      <%= link_to 'General Settings', lms_settings_path %>
+    </div>
+    <div style="clear:both;margin:10px 0 25px 40px;" class="box_sec">
+      <div class="content">
+        <% if @leave_accounts %>
+          <form name="leave_account">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+        <% end %>
+        <table id="leave-accounts">
+          <tr>
+            <th>Employee Name</th>
+    	<% if @yearly_settings.carry_forward %><th>Carry Forward</th><% end %>
+    	<% @active_leave_types.each do |lt| %>
+    	  <th><%= lt.name %></th>
+    	<% end %>
+    	<% if @yearly_settings.work_from_home %><th>Work From Home</th><% end %>
+    	<th>?</th>
+          </tr>
+          <% @leave_accounts.each do |la| %>
+            <tr id="record-<%= la.id %>" class="<%= cycle('odd', 'even') %>" data-record="<%= la.id %>">
+    	  <td><%= la.emp_name %></td>
+              <% if @yearly_settings.carry_forward %><% days= truncate_trailing_zero(la.tot_carry_forward) %><td class="data-field" data-column="tot_carry_forward" data-value="<%= days %>"><%= days %></td><% end %>
+    	  <% @active_leave_types.each do |lt| %>
+    	    <% days = truncate_trailing_zero(la.send("tot_#{lt.identifier}")) %>
+    	    <td class="data-field" data-column="tot_<%= lt.identifier %>" data-value="<%= days %>"><%= days %></td>
+    	  <% end %>
+    	  <% if @yearly_settings.work_from_home %><% days= truncate_trailing_zero(la.tot_wfh) %><td class="data-field" data-column="tot_wfh" data-value="<%= days %>"><%= days %></td><% end %>
+    	  <td class='form-buttons' style='text-align:center; width: 120px;'><input type="button" name="Edit" value="Edit" onclick="load_form(<%= la.id %>);" /></td>
+            </tr>
+          <% end %>
+        </table>
+        <% if @leave_accounts %>
+          </form>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var updateURL = "/lms_leave_accounts/";
+  var formName = "leave_account";
+</script>

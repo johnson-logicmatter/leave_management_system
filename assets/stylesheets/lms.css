@@ -1,0 +1,276 @@
+/*************** Common Styles  **********************/
+.lms_help{display:inline-block; min-width:16px; background: url('../images/help.png') no-repeat;}
+.bottom-input-hint{display:block; font-size:9px; color: #f01515;}
+/*************** Dashboard Page Styles***************/
+.dashboard #lms_box1{
+  width:60%;
+}
+.dashboard #lms_box2{
+  width:30%;
+}
+.dashboard #lms_top_menu ul li.active{
+background:#c4dbf2;
+}
+.dashboard #lms_box1 .box_content, .dashboard #lms_box2 .box_content{
+padding:0;
+}
+#dashboard_menu_wrapper{
+float:left;
+font-size:12px;
+height:10px;
+}
+#dashboard_menu_wrapper .active_menu{
+margin-bottom:0;
+}
+#dashboard_menu{
+padding:0;
+margin:0;
+color:#fff;
+}
+.box_content #leave_history{
+margin:25px 10px 25px 10px;
+}
+.box_content .ls_row{
+clear:both;
+margin:10px 0px 0px 60px;
+}
+.box_content .ls_row.top-buttons{margin-left:20px;}
+.box_content .ls_row .apply_leave, .box_content .ls_row .pub-holidays{
+float:right;
+margin: 0 15px 0 0;
+padding: 5px 5px;
+background: #9c9a9a;
+border-radius: 5px;
+border: 2px solid #727070;
+color: #fff;
+text-decoration: none;
+cursor: default;
+}
+.box_content .ls_row .pub-holidays{float:left;}
+.box_content .ls_row .apply_leave:hover, .box_content .ls_row .pub-holidays:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.box_content .ls_row span{
+float:left;
+margin:10px 0 0 0;
+}
+.box_content .ls_row .lsr_col1{
+width:130px;
+}
+.box_content .ls_row .lsr_col1, .box_content .ls_row .lsr_col2{
+font-weight:bold;
+}
+.box_content .ls_row .lsr_col2, .box_content .ls_row .lsr_col3{
+width:20px;
+}
+.box_content .ls_row .lsr_col3{
+width:75px;
+}
+.box_content .ls_row.seperator{
+border-top:0px;
+border-bottom:1px solid #000;
+margin:0 20px;
+}
+.box_content .ls_row.lsn_row{
+margin:10px 0px 0px 0px;
+}
+.box_content .ls_row.lsn_row .lsn_col1{
+width:82%;
+margin:10px 20px;
+padding: 0px 15px 0px 0px;
+background: #9c9a9a;
+border-radius: 5px;
+border: 2px solid #727070;
+}
+#public-holidays{margin: auto;}
+#public-holidays table thead{background: #3E5B76; border-bottom: 1px solid black;}
+#public-holidays table tbody tr{border-bottom: 1px solid black;}
+#public-holidays table thead th{color: #fff; text-align:left;}
+#public-holidays table thead th, #public-holidays table tbody td{padding:5px;}
+/****************** Dashboard Page Styles*****************/
+
+#content{
+	padding:0;
+}
+#lms_top_menu{
+	background-color:#628DB6;
+	height:30px;
+}
+#lms_top_menu.leave_history_menu{
+	background:#c4dbf2;
+}
+#lms_top_menu ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#lms_top_menu ul li{
+	float:left;
+	padding: 5px 10px;
+	height: 20px;
+}
+#lms_top_menu ul li.active{
+	background:#fff;
+}
+#lms_top_menu.leave_history_menu ul li.active{
+	background:#3E5B76 !important;
+}
+#lms_top_menu.leave_history_menu ul li.active a{
+	color:#fff !important;
+}
+#lms_top_menu.leave_history_menu ul li a{
+	color:#7b0b29 !important;
+}
+#lms_top_menu ul li.active a{
+	color:#914f6c;
+}
+#lms_top_menu ul li a{
+	/*color:#7b0b29;*/
+	color:#fff;
+	font-size:15px;
+	font-weight:bold;
+}
+#lms_box1{
+	margin: 25px 0px 0px 40px;
+}
+
+#lms_box2{
+	margin: 25px 0px 0px 4%;
+}
+.lms_box{
+	width: 45%;
+	min-height: 400px;
+	float:left;
+    background:#c4dbf2;
+	margin-bottom: 25px !important;
+}
+.lms_box .box_title{
+	height:30px;
+	background:#3E5B76;
+
+}
+.lms_box .box_title h2{
+	color:#fff;
+	text-align:center;
+}
+.lms_box .box_title #dashboard_menu_wrapper{
+	position:absolute;
+	left:55%;
+	padding: 6px 0px;
+}
+.lms_box .box_content{
+	padding: 0 0 0 20px;
+}
+.box_content .box_sec{
+	padding: 20px 0 0 0;
+}
+.box_sec .title h3, .lms_box_wrapper .title h3{
+	color: #be3a00;
+	float: left;
+}
+.box_sec .title span{
+	padding:6px 0 0 60px;
+	float:left;
+}
+.box_sec .content{
+	padding: 0 0 0 20px;
+}
+.box_sec .content table th, .box_content #leave_history table th{
+	color:#fff;
+	background:#be3a00;
+}
+.box_sec .content table tr.odd, .box_content #leave_history table tr.odd{
+	background:#e58d66;
+}
+.box_sec .content table tr.even, .box_content #leave_history table tr.even{
+	background:#e7ad94;
+}
+.box_sec .content table, .box_content #leave_history table, .lms_box_wrapper .content table{border-collapse: separate;}
+.lms_box_wrapper .content table th{color:#fff; background:#3E5B76;}
+/*.lms_box_wrapper .content table th.sub_heading{
+	color:#fff;
+	background:#0b762b;
+}*/
+/*.box_sec .content table td, .box_content #leave_history table td{
+	background:#e58d66;
+}*/
+.lms_box_wrapper .content table tr.odd, #detailed-report #leave-detail table tr.odd, #detailed-report #wfh-detail table tr.odd{background:#c4dbf2;}
+.lms_box_wrapper .content table tr.even, #detailed-report #leave-detail table tr.even, #detailed-report #wfh-detail table tr.even{background:#b0c5d9;}
+.lms_box_wrapper .content table td, .lms_box_wrapper .content table th{height:20px;padding: 0 5px;}
+#leave-settings-wrapper .field_wrapper{margin: 0px 10px;}
+#leave-settings-wrapper .field_wrapper label{display:inline-block; width: 50%; font-weight:bold; float: left;}
+#leave-settings-wrapper .field_wrapper.sub_field_wrapper{margin: 0px 20px !important;}
+#leave-settings-wrapper .field_wrapper.sub_field_wrapper label{display:inline; font-weight: normal; float: none;}
+#leave-settings-wrapper .field_wrapper.sub_field_wrapper input:not([type=checkbox]){margin-left:10px; width: 30px;}
+.field_wrapper label{
+	color:#17225a;
+}
+.field_wrapper .form_submit{
+	padding:0 100px;
+}
+#dashboard-notice ul li{padding-bottom:5px; color:#fff;}
+
+/************** Leaves styles *****************/
+#new_lms_leave input[type=text], #new_lms_leave select, .new_lms_public_holiday input[type=text], .edit_lms_public_holiday input[type=text]{width:200px;}
+.applied-dates .rack{float:left;padding: 3px}
+#rem-date, #full-day, #half-day{float:left; margin-left:5px; color: #fff; text-align:center; font-weight:bold; cursor: pointer;}
+#full-day, #half-day{width:18px;height:18px; border-radius: 10px;background: #e9071b; font-size:10px;}
+#rem-date{float:right; background: #e9071b;width:25px;height:25px;border-radius: 0px 5px 5px 25px;}
+#full-day.active, #half-day.active{background: #2ea527; cursor:alias;}
+#leave_days{margin: 0;padding: 3px 0 3px 0;padding-left: 180px;min-height: 1.8em;overflow:hidden;clear: left;}
+.applied-dates{margin: 5px 5px 0 0; float:left; height: 25px; width: 220px; font-size: 12px; background: #fff7ba; border-radius: 5px; border: 1px solid #e9071b;}
+#leave_history{overflow:auto;}
+#dashboard_menu{list-style:none;}
+#dashboard_menu li, #dashboard_menu li span, #dashboard_menu li div{float:left;}
+#dashboard_menu li span{cursor:pointer;}
+#dashboard_menu li span{display:block;height:15px;width:15px;border-radius:10px;background:#fff;}
+#dashboard_menu li.active span{background:#d27a37;}
+#dashboard_menu li.active div{color:#d27a37;}
+#ded_leave_error{margin-left:20px}
+#deduction_form label{margin-left:20px; width:130px; display: inline-table;}
+#tot_ded_leaves{padding-top:5px;}
+/************** Leaves styles ****************/
+  
+  
+/************ Report styles *******************/
+#lms-report-menu{text-align:center;}
+#lms-report-menu a{padding:10px 30px;background: #be3a00;border-radius: 17px;text-decoration:none;color:#fff;}
+#lms-report-menu a:hover, #lms-report-menu a.active{background: #e58d66;}
+#detailed-report #heading{text-align:center;}
+#detailed-report #emp-info div, #detailed-report #leave-detail #leave-summ div, #detailed-report #wfh-detail #wfh-summ div{padding-right:20px;}
+#detailed-report #emp-info div span, #detailed-report #leave-detail #leave-summ div span, #detailed-report #wfh-detail #wfh-summ div span{font-weight:bold; font-style:italic; color: #be3a00;}
+#detailed-report #emp-info div, #detailed-report #leave-detail #leave-summ div, #detailed-report #wfh-detail #wfh-summ div{float:left;}
+#detailed-report #leave-detail table, #detailed-report #wfh-detail table{border-collapse: separate; border-spacing: 1px;}
+#detailed-report #leave-detail div.table, #detailed-report #wfh-detail div.table{margin-top:10px;}
+#detailed-report #leave-detail table td, #detailed-report #wfh-detail table td{vertical-align: baseline;}
+#detailed-report #leave-detail table th, #detailed-report #wfh-detail table th{color: #fff;background: #3E5B76;}
+#detailed-report #leave-detail .table, #detailed-report #wfh-detail .table{max-height:250px; overflow-y:auto;}
+.selected-row{background: #9c9a9a !important;}
+.box{overflow: auto;}
+/************ Report styles ***************/
+
+
+/***************** Leave Account styles ********************/
+#lms_box3{margin: 25px 0px 25px 40px;width:94%;}
+#lms-accounts-menu{margin:15px 10px; float:right;}
+#lms-accounts-menu a{padding:10px 30px;background: #be3a00;border-radius: 17px;text-decoration:none;color:#fff;}
+#lms-accounts-menu a:hover, #lms-accounts-menu a.active{background: #e58d66;}
+table#leave-accounts th{height:30px;}
+.data-form input[type=text]{border: 0; width: 30px;}
+/***************** Leave account styles ********************/
+
+/***************** Settings styles *************************/
+.hide{display:none;}
+.sub_field_wrapper{margin-left:20px;}
+#leave-settings-wrapper{margin-right: 10px; padding:5px; border: 1px solid #be3a00;}
+#lms-roles-wrapper{margin-right: 10px;}
+#lms-roles-wrapper.content{padding:0;}
+#lms-roles-wrapper table{ padding:5px; border: 1px solid #be3a00;}
+#lms-accounts-menu{margin:15px 10px; float:right;}
+#lms-accounts-menu a{padding:10px 30px;background: #be3a00;border-radius: 17px;text-decoration:none;color:#fff;}
+#lms-accounts-menu a:hover, #lms-accounts-menu a.active{background: #e58d66;}
+#new_public_holiday_link{position:absolute; padding:6px;}
+#new_public_holiday_link a, a#new_leave_type_link{background: url("/images/add.png") no-repeat; padding:0 0 3px 16px;}
+#new_public_holiday_link a{color:#fff;}
+/******************** Settings styles ********************/

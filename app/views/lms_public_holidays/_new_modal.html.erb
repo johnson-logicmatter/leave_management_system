@@ -1,0 +1,8 @@
+<h3 class="title">Add holiday</h3>
+<%= labelled_form_for @public_holiday, :remote => true do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+  <p class="buttons">
+    <%= submit_tag l(:button_create), :name => nil, :disable_with => "Creating..." %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>

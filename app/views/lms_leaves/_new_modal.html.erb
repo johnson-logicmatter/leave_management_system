@@ -1,0 +1,42 @@
+<h3 class="title">Apply Leave</h3>
+
+<%= labelled_form_for @leave, :remote => true do |f| %>
+<%= render :partial => 'lms_leaves/form', :locals => { :f => f } %>
+  <p class="buttons">
+    <%= submit_tag l(:button_apply), :name => nil, :disable_with => "Applying....." %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>
+<script>
+var weekends = '<%= @lms_settings.weekends %>';
+var public_holidays = convertAllToDate(<%= raw @public_holidays.map(&:ph_date).as_json %>);
+$('#lms_leave_from_date, #lms_leave_to_date').Zebra_DatePicker({
+	direction: [translate_to_string(cYFDate), translate_to_string(cYLDate)],
+	disabled_dates: getDisableDates(),
+	show_clear_date: true,
+	start_date: translate_to_string(new Date()),
+	onSelect: function(){
+		from_date = new Date($('#lms_leave_from_date').val());
+		to_date = new Date($('#lms_leave_to_date').val());
+		if(from_date != '' && to_date != '' && from_date >= cYFDate && to_date <= cYLDate && from_date.getTime() <= to_date.getTime()){
+			leave_dates_objects = dates_array(from_date, to_date);
+			leave_dates = new Array();
+			leave_dates_objects.forEach(function(date,index){
+			leave_dates.push(translate_to_string(date) + " :F");
+			});
+			options = '';
+			leave_dates_elements = '';
+			leave_dates.forEach(function(date,index){
+			options += '<option value="' + date + '" selected>' + date + '</option>';
+			leave_dates_elements += '<div class="applied-dates">        <span class="rack"><b>' + getDayName(date) + '</b></span>	<span id="app-date" class="rack">' + date + '</span>	<span class="rack">	  <div id="full-day" title="Full day" class="active">F</div>	  <div id="half-day" title="Half day" onclick="half_day(this);">H</div>	  </span>      <span id="rem-date" title="Remove date" onclick="remove_date(this);">x</span>	</div>';
+			});
+			$('#lms_leave_no_of_days').val(leave_dates.length);
+			$('#lms_leave_leave_dates_object').html(options);
+			$('#leave_days').html(leave_dates_elements);
+		}
+		else{
+			clear_dates_fields();
+		}
+	}
+});
+</script>

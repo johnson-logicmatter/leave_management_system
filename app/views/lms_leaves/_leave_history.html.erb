@@ -1,0 +1,186 @@
+<% menu = params[:menu] || 'Own' %>
+<% unless params[:tab] %>
+  <% pending_tab = ['index', 'create', 'pending', 'destroy', 'approve', 'reject'].include?(action_name) %>
+  <% approved_tab = ['approved', 'deduct'].include?(action_name) %>
+  <% rejected_tab = ['rejected'].include?(action_name) %>
+  <% cancelled_tab = ['cancelled'].include?(action_name) %>
+<% else %>
+  <% pending_tab = params[:tab] == 'pending' %>
+  <% approved_tab = params[:tab] == 'approved' %>
+  <% rejected_tab = false %>
+  <% cancelled_tab = false %>
+<% end %>
+  <div class="box_title">
+    <% if LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:dt]) || LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:ar])%>
+      <span id="dashboard_menu_wrapper">
+      <ul id="dashboard_menu">
+        <li class="own <%= menu == 'Own' ? 'active' : 'inactive' %>"><div>Own</div><span></span></li>
+        <li class="others <%= menu == 'Others' ? 'active' : 'inactive' %>"><span></span><div>Others</div></li>
+      </ul>
+      </span>
+    <% end %>
+    <h2>Leave History <%= today.year %></h2>
+  </div>
+  <div class="box_content">
+   <div id="lms_top_menu" class='leave_history_menu'>
+     <ul>
+       <li class="<%= pending_tab ? 'active' : '' %>"><%= link_to('Pending', pending_lms_leaves_path(:menu => menu), :remote => true) %></li>
+       <li class="<%= approved_tab ? 'active' : '' %>"><%= link_to('Approved', approved_lms_leaves_path(:menu => menu), :remote => true) %></li>
+       <li class="<%= rejected_tab ? 'active' : '' %>"><%= link_to('Rejected', rejected_lms_leaves_path(:menu => menu), :remote => true) %></li>
+       <li class="<%= cancelled_tab ? 'active' : '' %>"><%= link_to('Cancelled', cancelled_lms_leaves_path(:menu => menu), :remote => true) %></li>
+     </ul>
+   </div>
+   <div id="leave_history">
+      <% if leaves.present? %>
+      <table>
+        <tr>
+	  <% if menu == 'Others' %><th>Applier</th><% end %>
+  	  <th>No Of Days</th>
+	  <th>Reason</th>
+	  <th>From</th>
+	  <th>To</th>
+	  <th>Leave type</th>
+	  <th>Applied To</th>
+	  <th>Applied on</th>
+	  <% if menu == 'Others' %>
+	    <% if pending_tab %>
+	      <th>What to do?</th>
+	    <% elsif approved_tab %>
+	      <th>What to do?</th>
+	      <th>Approver</th>
+	      <th>Approved on</th>
+	      <th>Processor</th>
+	      <th>Processed on</th>
+	    <% elsif rejected_tab %>
+	      <th>Rejector</th>
+	      <th>Rejected on</th> 
+	    <% elsif cancelled_tab %>
+	      <th>Cancelled on</th>
+	    <% end %>
+	  <% else %>
+	    <% if pending_tab %>
+	      <th>What to do?</th>
+	    <% elsif approved_tab %>
+	      <th>Status</th>
+	      <th>Approver</th>
+	      <th>Approved on</th>
+	      <th>Processor</th>
+	      <th>Processed on</th>
+	    <% elsif rejected_tab %>
+	      <th>Rejector</th>
+	      <th>Rejected on</th>
+	    <% elsif cancelled_tab %>
+	      <th>Cancelled on</th>
+	    <% end %>
+	  <% end %>
+        </tr>
+	<% leaves.each do |leave| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+	  <% if menu == 'Others' %><td><%= leave.emp_name %></td><% end %>
+  	  <td><%= truncate_trailing_zero(leave.no_of_days) %></td>
+	  <td><%= leave.reason %></td>
+	  <td><%= leave.from_date.strftime("%d %b %Y") %></td>
+	  <td><%= leave.to_date.strftime("%d %b %Y") %></td>
+	  <td><%= LmsLeaveCategory.all[leave.leave_category_id] %></td>
+	  <td><%= leave.reportees %></td>
+	  <td><%= leave.created_at.strftime("%d %b %Y") %></td>
+  	  <% if menu == 'Others' %>
+	    <% if leave.pending? %>
+	      <td>
+	        <% if LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:dt]) && !leave.reported_to.include?(@employee.id.to_s) %>
+	          <p style='color:red;'>Yet to approve</p>
+	        <% else %>
+	          <%= link_to 'Approve', approve_lms_leafe_path(leave.id), :remote => true %>
+	          <%= link_to 'Reject', reject_lms_leafe_path(leave.id), :remote => true  %>
+	        <% end %>
+	      </td>
+	    <% elsif leave.approved? %>
+	      <td>
+	        <% if LeaveManagementSystem.allowed_to? @employee, LeaveManagementSystem::ROLES[:dt] %>
+	          <% if leave.id == leave.parent_leave_id %>
+	            Process
+		  <% else %>
+		    <%= link_to 'Process', proces_lms_leafe_path(leave.id), :remote => true %>
+		  <% end %>
+		<% else %>
+		  <p style='color:red;'>Yet to process</p>
+		<% end %>
+	      </td>
+	      <td><%= leave.approver_name %></td>
+	      <td><%= leave.approved_on.strftime("%d %b %Y") %></td>
+	      <td>--</td>
+	      <td>--</td>
+	    <% elsif leave.processed? %>
+	      <td><p style='color:green;'>Processed</p></td>
+	      <td><%= leave.approver_name %></td>
+	      <td><%= leave.approved_on.strftime("%d %b %Y") %></td>
+	      <td><%= leave.processor_name %></td>
+	      <td><%= leave.processed_on.strftime("%d %b %Y") %></td>
+	    <% elsif leave.rejected? %>
+	      <td><%= leave.lms_leave_status.rejector.name %></td>
+	      <td><%= leave.rejected_on.strftime("%d %b %Y") %></td>
+	    <% elsif leave.cancelled? %>
+	      <td><%= leave.cancelled_on.strftime("%d %b %Y") %></td>
+	    <% end %>
+	  <% else %>
+	    <% if leave.pending? %>
+	      <td><%= link_to 'Cancel', lms_leafe_path(leave.id), :method => :delete, :remote => true, :confirm => "Are you sure to cancel your leave?" %></td>
+	    <% elsif leave.approved? %>
+	      <td>
+		<% if LeaveManagementSystem.allowed_to?(@employee, LeaveManagementSystem::ROLES[:dt]) %>
+	          <% if leave.id == leave.parent_leave_id %>
+	            Process
+		  <% else %>
+		    <%= link_to 'Process', proces_lms_leafe_path(leave.id, :menu => 'Own'), :remote => true %>
+		  <% end %>
+		<% else %>
+	          <p style='color:red;'>Yet to process</p>
+		<% end %>
+	      </td>
+	      <td><%= leave.approver_name %></td>
+	      <td><%= leave.approved_on.strftime("%d %b %Y") %></td>
+	      <td>--</td>
+	      <td>--</td>
+	    <% elsif leave.processed? %>
+	      <td><p style='color:green;'>Processed</p></td>
+	      <td><%= leave.approver_name %></td>
+	      <td><%= leave.approved_on.strftime("%d %b %Y") %></td>
+	      <td><%= leave.processor_name %></td>
+	      <td><%= leave.processed_on.strftime("%d %b %Y") %></td>
+	    <% elsif leave.rejected? %>
+	      <td><%= leave.lms_leave_status.rejector.name %></td>
+	      <td><%= leave.rejected_on.strftime("%d %b %Y") %></td>
+	    <% elsif leave.cancelled? %>
+	      <td><%= leave.cancelled_on.strftime("%d %b %Y") %></td>
+	    <% end %>
+	  <% end %>
+        </tr>
+	<% end %>
+      </table>
+      <% else %>
+        <span>None to display</span>
+      <% end %>
+   </div>
+  </div>
+  
+<script>
+$(document).ready(function(){
+	$('table tr.odd, table tr.even').click(function(){
+		$('table tr.odd.selected-row, table tr.even.selected-row').removeClass('selected-row');
+		$(this).addClass('selected-row');
+	});
+    <% if params[:tab] && params[:tab] == 'approved' && params[:id] %>
+      $('#leave_history a[href="<%= proces_lms_leafe_path(params[:id]) %>"]').click();
+    <% end %>
+	$("#dashboard_menu li.inactive span").click(function(){
+		var menu = $(this).siblings().text();
+		$.ajax({
+			url: '/lms_leaves/pending',
+			method: 'get',
+			data: {'menu':menu},
+			success: function(data){
+			}
+		});
+	});
+});
+</script>

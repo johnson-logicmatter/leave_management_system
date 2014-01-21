@@ -1,0 +1,11 @@
+<h3 class="title">New Leave Type</h3>
+
+<%= labelled_form_for @leave_type, :remote => true do |f| %>
+<%= render :partial => 'lms_leave_types/form', :locals => { :f => f } %>
+  <p class="buttons">
+    <%= submit_tag l(:button_create), :name => nil, :disable_with => "Creating..." %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>
+
+

@@ -1,0 +1,5 @@
+#admin-menu a.leave-management-system{background-image: url("../images/lms.png");}
+#leave_management_system .pluginSettingsLeftPane{float:left; width:50%;}
+#leave_management_system .pluginSettingsRightPane{margin-top:0px;}
+#leave_management_system .pluginSettingsLeftPane #groups, #leave_management_system .pluginSettingsRightPane #groups{max-height:300px;overflow:auto;}
+#leave_management_system .pluginSettingsLeftPane fieldset, #leave_management_system .pluginSettingsRightPane fieldset{margin-bottom:10px;background:#fff;}

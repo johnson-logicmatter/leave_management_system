@@ -1,0 +1,38 @@
+<div id='detailed-report'>
+  <div id='heading'>
+    <h3 class='title'>Deduct Work From Home</h3>
+  </div>
+  <div id='emp-info' class='box'>
+    <h3>Applier Info</h3>
+    <div><span>Name </span><%= @applier.name %></div>
+    <% if @applier.respond_to? :department %><div><span>Department </span><%= @applier.department.name %></div><% end %>
+    <% if @applier.respond_to? :job_title %><div><span>Designation </span><%= @applier.job_title %></div><% end %><br/>
+  </div>
+  <div id='wfh-detail' class='box'>
+    <h3>Work from home Detail</h3>
+    <div id='wfh-summ'>
+      <div><span>No of days </span><%= truncate_trailing_zero(@leave.no_of_days) %></div>
+      <div>
+        <span>Applied dates </span>
+	<% full_days = @leave.leave_dates_object.select {|date| date.match /:F$/} %>
+	<% half_days = @leave.leave_dates_object.select {|date| date.match /:H$/} %>
+	<% if full_days.present? %>
+	  <b>Full Days:</b> <%= full_days.map {|date| date.to_date.strftime("%d %b %Y")}.join(', ') %><br/>
+	<% end %>
+	<% if half_days.present? %>
+	  <b>Half Days:</b> <%= half_days.map {|date| date.to_date.strftime("%d %b %Y")}.join(', ') %>
+	<% end %>
+      </div>
+      <div><span>Reason </span><%= @leave.reason %></div>
+      <br/>
+      <%= labelled_form_for @leave.lms_leave_status, :url => deduct_lms_leaves_path, :remote => true do |f| %>
+      <%= f.hidden_field :lms_leave_id, :value => @leave.id %>
+      <%= hidden_field_tag(:menu, params[:menu]) if params[:menu] %>
+      <p class="buttons">
+        <%= submit_tag l(:button_process), :name => nil, :disable_with => "Processing..." %>
+        <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+      </p>
+      <% end %>
+    </div>
+  </div>
+</div>

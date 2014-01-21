@@ -1,0 +1,85 @@
+<div id='detailed-report'>
+  <div id='heading'>
+    <h3 class='title'>Deduct Leave</h3>
+  </div>
+  <div id='emp-info' class='box'>
+    <h3>Applier Info</h3>
+    <div><span>Name </span><%= @applier.name %></div>
+    <% if @applier.respond_to? :department %><div><span>Department </span><%= @applier.department.name %></div><% end %>
+    <% if @applier.respond_to? :job_title %><div><span>Designation </span><%= @applier.job_title %></div><% end %><br/>
+  </div>
+  <div id='leave-detail' class='box'>
+    <h3>Leave Detail</h3>
+    <div id='leave-summ'>
+      <div><span>Type of leave </span><%= LmsLeaveCategory.all[@leave.leave_category_id] %></div>
+      <div><span>No of days </span><%= truncate_trailing_zero(@leave.no_of_days) %></div>
+      <div>
+        <span>Applied dates </span>
+	<% full_days = @leave.leave_dates_object.select {|date| date.match /:F$/} %>
+	<% half_days = @leave.leave_dates_object.select {|date| date.match /:H$/} %>
+	<% if full_days.present? %>
+	  <b>Full Days:</b> <%= full_days.map {|date| date.to_date.strftime("%d %b %Y")}.join(', ') %><br/>
+	<% end %>
+	<% if half_days.present? %>
+	  <b>Half Days:</b> <%= half_days.map {|date| date.to_date.strftime("%d %b %Y")}.join(', ') %>
+	<% end %>
+      </div>
+      <div><span>Reason </span><%= @leave.reason %></div>
+      <br/>
+    </div>
+  </div>
+  <div class='box'>
+    <h3>Deduction Form</h3>
+    <%= labelled_form_for @leave.lms_leave_status, :url => deduct_lms_leaves_path, :remote => true do |f| %>
+    <%= f.hidden_field :lms_leave_id, :value => @leave.id %>
+    <%= hidden_field_tag(:menu, params[:menu]) if params[:menu] %>
+    <div id='ded_leave_error' style='color:red;'><%= @leave.lms_leave_status.errors.full_messages[0] %></div>
+    <div id='deduction_form'>
+      <% if @yearly_settings.carry_forward && available_leaves(@leave_history.tot_carry_forward, @leave_history.ded_carry_forward) > 0 %>
+        <label>Carry Forward</label> <%= select f.object_name, "ded_carry_forward", leaves_to_be_detected(@leave_history.tot_carry_forward, @leave_history.ded_carry_forward, @leave.no_of_days) %></br>
+      <% end %>
+      <% @active_leave_types.each do |lt| %>
+        <% if available_leaves(@leave_history.send("tot_#{lt.identifier}"), @leave_history.send("ded_#{lt.identifier}")) > 0 %>
+          <label><%= lt.name %></label> <%= select f.object_name, "ded_#{lt.identifier}", leaves_to_be_detected(@leave_history.send("tot_#{lt.identifier}"), @leave_history.send("ded_#{lt.identifier}"), @leave.no_of_days) %></br>
+        <% end %>
+      <% end %>
+        <label>LOP</label> <%= select f.object_name, "lop", (0..@leave.no_of_days).step(0.5) %> </br>
+    <div id='tot_ded_leaves'><label><b>Deducted Leaves</b></label> <span style='color:red;'>0</span></div>
+    </div>
+      <p class="buttons">
+        <%= submit_tag l(:button_process), :name => nil, :disable_with => "Processing..." %>
+        <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  var applied_leaves = <%= @leave.no_of_days %>;
+  var sum_of_ded_leaves = 0;
+  $("input[type='submit']").click(function(){
+ 	 sum_of_ded_leaves =0;
+ 	 var ded_leaves = $("#deduction_form select");
+ 	 ded_leaves.each(function(index){
+ 		 sum_of_ded_leaves += Number($(this).val());
+ 	 });
+ 	 if(sum_of_ded_leaves != applied_leaves){
+ 		 $('#ded_leave_error').text('Deducted leaves are not matching with applied leaves. Please check the deducted leaves');
+ 		 return false;
+ 	 }
+  });
+  
+  $("#deduction_form select").change(function(){
+ 	 sum_of_ded_leaves =0;
+ 	 $('#deduction_form select').each(function(index){
+ 		 sum_of_ded_leaves += Number($(this).val());
+ 	 });
+ 	 $('#tot_ded_leaves span').text(sum_of_ded_leaves);
+ 	 if(sum_of_ded_leaves != applied_leaves){
+ 		 $('#tot_ded_leaves span').css('color', 'red');
+ 	 }
+ 	 else{
+ 		 $('#tot_ded_leaves span').css('color', 'green');
+ 	 }
+  });
+</script>

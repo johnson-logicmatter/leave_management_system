@@ -1,0 +1,25 @@
+<h3 class="title">Public Holidays <%= @yearly_settings.year %></h3>
+<div id="public-holidays">
+  <% if @public_holidays.present? %>
+    <table>
+      <thead>
+        <tr>
+          <th>L.No</th>
+  	<th>Occasion Name</th>
+  	<th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+       <% @public_holidays.each_with_index do|holiday, index| %>
+         <tr>
+           <td><%= index + 1 %></td>
+  	 <td><%= holiday.occ_name %></td>
+  	 <td><%= holiday.ph_date.strftime "%b %d, %Y" %></td>
+         </tr>
+       <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="nodata">No holidays</p>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+<div style='width:99%; margin-bottom:20px; min-height:80px; background: #c4dbf2; border-radius: 2px; border:1px solid #3E5B76;'>
+  <div style='height:30px; background: url("http://<%= Setting.host_name %>/plugin_assets/leave_management_system/images/lm_150px.png") 10px 5px no-repeat #3E5B76; color: #fff; text-align: center; font-weight: bold; font-size: 18pt; padding-top: 5px;'>
+    Rejection Notification
+  </div>
+  <div style='margin:10px;'>
+    <div>
+      Hi <%= @applier.name %>,
+    </div>
+    <div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @rejector.name %> has rejected your <%= truncate_trailing_zero @leave.no_of_days %> day(s) <%= @leave_type.downcase %> applied on following dates.
+    </div><br/>
+    <div>
+      Dates are:<br/>
+      <% @leave.leave_dates_object.each do |ldate| %>
+        <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %><br/>
+      <% end %>
+    </div><br/>
+    <div style="clear:both;"></div>
+  </div>
+</div>

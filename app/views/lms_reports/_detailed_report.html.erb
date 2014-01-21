@@ -1,0 +1,123 @@
+<% 
+  @year, @month = @year.to_i, @month.to_i
+%>
+<div id='detailed-report'>
+<div id='heading'>
+  <h3 class='title'>
+  <%= 
+    case action_name
+      when 'month_detailed'
+        "#{Date.new(@year, @month).strftime('%b %Y')} Detailed Report"
+      when 'year_detailed'
+        "#{Date.new(@year, @month).strftime('%Y')} Detailed Report"
+      when 'ytd_detailed'
+        "#{Date.new(@year, 1).strftime('%b %Y')} - #{Date.new(@year, @month).strftime('%b %Y')} Detailed Report"
+    end
+  %>
+  </h3>
+</div>
+<div id='emp-info' class='box'>
+<h3>Employee Info</h3>
+<div><span>Name </span><%= @employee.name %></div>
+<% if @employee.respond_to? :department %><div><span>Department </span><%= @employee.department.name %></div><% end %>
+<% if @employee.respond_to? :job_title %><div><span>Designation </span><%= @employee.job_title %></div><% end %></br>
+</div>
+<div id='leave-detail' class='box'>
+<h3>Leaves Detail</h3>
+<div id='leave-summ'>
+    <% if @yearly_settings.carry_forward %><div><span>Carry Forward </span><% sum_leaves = @leaves.sum(&:ded_carry_forward) %><%= sum_leaves.is_a?(Fixnum) ? sum_leaves : truncate_trailing_zero(sum_leaves) %></div><% end %>
+    <%  @active_leave_types.each do |lt| %>
+      <div><span><%= lt.name %> </span><% sum_leaves= @leaves.sum(&"ded_#{lt.identifier}".to_sym) %><%= sum_leaves.is_a?(Fixnum) ? sum_leaves : truncate_trailing_zero(sum_leaves) %></div>
+    <% end %>
+    <div><span>LOP </span><% sum_leaves= @leaves.sum(&:lop) %><%= sum_leaves.is_a?(Fixnum) ? sum_leaves : truncate_trailing_zero(sum_leaves) %></div>
+</div>
+<br/>
+<% if @leaves.present? %>
+<div class='table'>
+<table>
+  <tr>
+    <th style="width:11%">From Date</th>
+    <th style="width:11%">To Date</th>
+    <th style="width:5%">Leave Type</th>
+    <th style="width:20%">Reason</th>
+    <th style="width:5%">No of days</th>
+    <th style="width:10%">Approved By</th>
+    <th style="width:20%">Days</th>
+    <th style="width:18%">Deduction Detail</th>
+  </tr>
+  <% @leaves.each do |leave| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td><%= leave.from_date.strftime('%d %b %Y') %></td>
+      <td><%= leave.to_date.strftime('%d %b %Y') %></td>
+      <td><%= LmsLeaveCategory.all[leave.leave_category_id] %></td>
+      <td><%= leave.reason %></td>
+      <td><%= truncate_trailing_zero(leave.no_of_days) %></td>
+      <td><%= Employee.find leave.approved_by %></td>
+      <td><% if leave.full_days.present? %><b>Full Days:</b><br/><%= leave.full_days %><br/><% end %><% if leave.half_days.present? %><b>Half Days:</b><br/><%= leave.half_days %><% end %></td>
+      <td>
+        <%  @active_leave_types.each do |lt| %>
+	  <% if leave.send("ded_#{lt.identifier}") > 0 %>
+	    <%= lt.name%> : <%= truncate_trailing_zero(leave.send("ded_#{lt.identifier}")) %><br/>
+	  <% end %>
+	<% end %>
+	<% if leave.ded_carry_forward > 0 %>
+	  Carry Forward : <%= truncate_trailing_zero(leave.ded_carry_forward) %><br/>
+	<% end %>
+	<% if leave.lop > 0 %>
+	  LOP : <%= truncate_trailing_zero(leave.lop) %><br/>
+	<% end %>
+     </td>
+    </tr>
+  <% end %>
+</table>
+</div>
+<% else %>
+  <p class="nodata">No data</p>
+<% end %>
+</div>
+<% if @yearly_settings.work_from_home %>
+  <div id='wfh-detail' class='box'>
+  <h3>Work From Home Detail</h3>
+  <div id='wfh-summ'>
+      <div><span>Work from home </span><% sum_wfh= @wfh.sum(&:ded_wfh) %><%= sum_wfh.is_a?(Fixnum) ? sum_wfh : truncate_trailing_zero(sum_wfh) %></div>
+  </div>
+  <br/>
+  <% if @wfh.present? %>
+  <div class='table'>
+  <table>
+    <tr>
+      <th style="width:11%">From Date</th>
+      <th style="width:11%">To Date</th>
+      <th style="width:5%">Leave Type</th>
+      <th style="width:20%">Reason</th>
+      <th style="width:5%">No of days</th>
+      <th style="width:10%">Approved By</th>
+      <th style="width:20%">Days</th>
+      <th style="width:18%">Deduction Detail</th>
+    </tr>
+    <% @wfh.each do |wfh| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= wfh.from_date.strftime('%d %b %Y') %></td>
+        <td><%= wfh.to_date.strftime('%d %b %Y') %></td>
+        <td><%= LmsLeaveCategory.all[wfh.leave_category_id] %></td>
+        <td><%= wfh.reason %></td>
+        <td><%= truncate_trailing_zero(wfh.no_of_days) %></td>
+        <td><%= Employee.find wfh.approved_by %></td>
+        <td><% if wfh.full_days.present? %><b>Full Days:</b><br/><%= wfh.full_days %><br/><% end %><% if wfh.half_days.present? %><b>Half Days:</b><br/><%= wfh.half_days %><% end %></td>
+        <td><%= truncate_trailing_zero(wfh.ded_wfh) %></td>
+      </tr>
+    <% end %>
+  </table>
+  </div>
+  <% else %>
+    <p class="nodata">No data</p>
+  <% end %>
+  </div>
+<% end %>
+</div>
+<script>
+$('table tr.odd, table tr.even').click(function(){
+	$('table tr.odd.selected-row, table tr.even.selected-row').removeClass('selected-row');
+	$(this).addClass('selected-row');
+});
+</script>

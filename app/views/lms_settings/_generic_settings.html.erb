@@ -1,0 +1,46 @@
+<% weekends = @leave_setting.weekends.split(',').map {|w| w.to_i} %>
+<%= form_tag("/lms_settings/#{@leave_setting.id}", :method => :put) do |f| %>
+  <% unless @yearly_settings && @yearly_settings.started %>
+    <div class="field_wrapper">
+      <label>Do you have Work From Home policy?</label>
+      <span><%= radio_button_tag "lms_leave_setting[work_from_home]", true, @leave_setting.work_from_home ? true : false, :class => 'lms_ls_wfh' %> Yes <%= radio_button_tag "lms_leave_setting[work_from_home]", false, @leave_setting.work_from_home ? false : true, :class => 'lms_ls_wfh' %> No</span>
+      <div style="clear:both;"></div>
+      <div class="field_wrapper sub_field_wrapper <%= @leave_setting.work_from_home ? '' : 'hide' %>">
+        <label>Limit per Month</label>
+        <span><%= text_field_tag "lms_leave_setting[work_from_home_limit]", @leave_setting.work_from_home_limit, :disabled => !@leave_setting.work_from_home %></span>
+      </div>
+    </div><br/>
+    <div class="field_wrapper">
+      <label>What to do the not used leaves at the end of the year?</label>
+      <span><%= radio_button_tag "lms_leave_setting[will_be_carry_forwarded]", true, @leave_setting.will_be_carry_forwarded ? true : false, :class => 'lms_ls_cf' %> Carry Forward <%= radio_button_tag "lms_leave_setting[will_be_carry_forwarded]", false, @leave_setting.will_be_carry_forwarded ? false : true, :class => 'lms_ls_cf' %> Cash Back</span>
+      <div style="clear:both;"></div>
+      <div class="field_wrapper sub_field_wrapper <%= @leave_setting.will_be_carry_forwarded ? '' : 'hide' %>" id="leave_setting_max_days">
+        <label>Max. no of days will be carry forwarded</label>
+        <span><%= text_field_tag "lms_leave_setting[max_days]", @leave_setting.max_days, :disabled => !@leave_setting.will_be_carry_forwarded %></span>
+      </div>
+    </div><br/>
+  <% else %>
+    <div class="field_wrapper">
+      <label>Work from home allowed? How many days?</label>
+      <span><% if @yearly_settings.work_from_home %>Yes, <%= @yearly_settings.work_from_home_limit %> day(s) per month<% else %>No<% end %></span>
+      <div style="clear:both;"></div>
+    </div><br/>
+    <div class="field_wrapper">
+      <label>Will unused leaves be Carry forwarded or Cash backed?</label>
+      <span><% if @yearly_settings.carry_forward %>Maximum <%= @yearly_settings.carry_forward_limit %> day(s) will be carry forwarded.<% else %>Will be cash backed.<% end %></span>
+      <div style="clear:both;"></div>
+    </div><br/>
+  <% end %>
+  <div class="field_wrapper">
+    <label>Weekends</label>
+    <div style="clear:both;"></div>
+    <div class="field_wrapper sub_field_wrapper">
+      <% LmsLeaveSetting::WEEKDAYS.each_with_index do |day, index| %>
+      <span><%= check_box_tag "lms_leave_setting[weekends][]", index, weekends.include?(index) %> <%= day %></span>
+      <% end %>
+    </div>
+  </div><br/>
+  <div class="field_wrapper">
+    <span class="form_submit"><%= submit_tag "Update" %></span>
+  </div>
+<% end %>

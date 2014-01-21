@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Assigned Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% LeaveManagementSystem::ROLES.each do |key, role| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><b><%= role.capitalize %></b></td>
+        <td><%= groups(role) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

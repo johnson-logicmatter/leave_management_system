@@ -1,0 +1,2 @@
+hideModal();
+$('.dashboard #lms_box1').html('<%= escape_javascript(render :partial => 'leave_history', :locals => {:today => Date.today, :leaves => @approved_and_processed_leaves}) %>');
