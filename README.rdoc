@@ -4,26 +4,26 @@ This is a redmine plugin helps to manage employees leave account of an employer
 
 == How to install 
 
-* Download and extract or clone the LMS redmine plugin in the redmine app's plugins folder '{redmine_app}/plugins'
+1. Download and extract or clone the LMS redmine plugin in the redmine app's plugins folder '{redmine_app}/plugins'
 
-  * cd {redmine_app}/plugins
-  * git clone https://github.com/johnson-johnson/leave_management_system.git leave_management_system
+   * cd {redmine_app}/plugins
+   * git clone https://github.com/johnson-johnson/leave_management_system.git leave_management_system
 
-* Run the migrations
+2. Run the migrations
 
-  * rake redmine:plugins:migrate NAME=leave_management_system RAILS_ENV=production
+   * rake redmine:plugins:migrate NAME=leave_management_system RAILS_ENV=production
 
 3. Restart the server
 
 == How to uninstall
 
-* Rollback the migrations
+1. Rollback the migrations
 
-  * rake redmine:plugins:migration NAME=leave_management_system VERSION=0 RAILS_ENV=production
+   * rake redmine:plugins:migration NAME=leave_management_system VERSION=0 RAILS_ENV=production
 
-* Remove the redmine_leave_management_system plugins folder from redmine app's plugins folder
+2. Remove the redmine_leave_management_system plugins folder from redmine app's plugins folder
 
-* Restart the server
+3. Restart the server
 	
 == Features
 
