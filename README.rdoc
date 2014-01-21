@@ -2,6 +2,11 @@
 
 This is a redmine plugin helps to manage employees leave account of an employer
 
+== Supported in
+
+* Ruby - 1.9.x
+* Rails - 2.1.x
+
 == How to install 
 
 1. Download and extract or clone the LMS redmine plugin in the redmine app's plugins folder '{redmine_app}/plugins'
