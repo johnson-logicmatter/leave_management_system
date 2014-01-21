@@ -4,8 +4,8 @@ This is a redmine plugin helps to manage employees leave account of an employer
 
 == Supported in
 
+* Redmine - 2.1.x
 * Ruby - 1.9.x
-* Rails - 2.1.x
 
 == How to install 
 
