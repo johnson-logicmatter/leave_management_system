@@ -1,0 +1,7 @@
+Hi <%= @applier.name %>,
+   <%= @rejector.name %> has rejected your <%= truncate_trailing_zero @leave.no_of_days %> day(s) <%= @leave_type.downcase %> applied on following dates.
+
+Dates are:
+<% @leave.leave_dates_object.each do |ldate| %>
+   <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %>
+<% end %>

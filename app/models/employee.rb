@@ -1,5 +1,7 @@
 class Employee < User
   unloadable
+  
+  attr_accessor :_type_disabled
   self.inheritance_column = :_type_disabled
 
   has_many :lms_yearly_leave_histories, :foreign_key => :user_id

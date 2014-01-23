@@ -1,0 +1,11 @@
+Hi,
+   <%= @applier.name %> has applied <%= truncate_trailing_zero @leave.no_of_days %> day(s) <%= @leave_type.downcase %> on following dates. Reason is "<%= @leave.reason %>".
+   
+Dates are:
+<% @leave.leave_dates_object.each do |ldate| %>
+   <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %>
+<% end %>
+
+Click here to approve, <%= "http://#{Setting.host_name}#{approve_lms_leafe_path(@leave.id)}" %>
+Click here to reject, <%= "http://#{Setting.host_name}#{reject_lms_leafe_path(@leave.id)}" %>
+

@@ -1,0 +1,7 @@
+Hi,
+   <%= @applier.name %> <%= @message %> for <%= truncate_trailing_zero @leave.no_of_days %> day(s). Reason is "<%= @leave.reason %>".
+   
+Dates are:
+<% @leave.leave_dates_object.each do |ldate| %>
+   <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %>
+<% end %>

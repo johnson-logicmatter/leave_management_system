@@ -1,0 +1,9 @@
+Hi,
+   <%= @approver.name %> has approved <%= truncate_trailing_zero @leave.no_of_days %> day(s) <%= @leave_type.downcase %> applied by <%= @applier.name %> for following dates. Reason is "<%= @leave.reason %>". Please process this.
+
+Dates are:
+<% @leave.leave_dates_object.each do |ldate| %>
+   <%= ldate.to_date.strftime "%b %d, %Y" %> - <%= ldate.match(/:F$/ ) ? "Full day" : "Half day" %><br/>
+<% end %>
+
+Click here to process, <%= "http://#{Setting.host_name}#{proces_lms_leafe_path(@leave.id)}" %>
