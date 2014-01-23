@@ -4,7 +4,7 @@ This is a redmine plugin helps to manage employees leave account of an employer
 
 == Supported in
 
-* Redmine - 2.1.x
+* Redmine - 2.1.x, 2.2.x, 2.3.x, 2.4.x
 * Ruby - 1.9.x
 
 == How to install 
@@ -73,6 +73,11 @@ This is a redmine plugin helps to manage employees leave account of an employer
 === 0.0.1
 
 * First release
+
+==== 0.0.1 (patch)
+
+* Fixed Apply leave failure bug
+* Now supports in Redmine 2.2.x, 2.3.x, 2.4.x also
 
 === Repository
 
