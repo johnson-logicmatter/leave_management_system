@@ -4,6 +4,7 @@ This is a redmine plugin helps to manage employees leave account of an employer
 
 == Supported in
 
+* MySql
 * Redmine - 2.1.x, 2.2.x, 2.3.x, 2.4.x
 * Ruby - 1.9.x
 
