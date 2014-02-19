@@ -5,6 +5,7 @@ class LmsYearlyLeaveHistory < ActiveRecord::Base
   belongs_to :employee, :foreign_key => 'user_id'
   belongs_to :lms_yearly_setting
   
+  attr_accessor :month_start
   scope :years, select("year").uniq
   validate :leave_account, :on => :update
   after_create :generate_monthly_leave_histories
@@ -75,8 +76,8 @@ class LmsYearlyLeaveHistory < ActiveRecord::Base
   end
 
   def generate_monthly_leave_histories
-    records, uid, yid = [], self.user_id, self.id
-    Date.today.month.upto(12) {|month| records << {:user_id => uid, :lms_yearly_leave_history_id => yid, :month => month}}
+    records, uid, yid, m_start = [], self.user_id, self.id, self.month_start || 1
+    m_start.upto(12) {|month| records << {:user_id => uid, :lms_yearly_leave_history_id => yid, :month => month}}
     LmsMonthlyLeaveHistory.create records
   end
   

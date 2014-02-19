@@ -209,7 +209,9 @@ border: 2px solid #727070;
 .field_wrapper .form_submit{
 	padding:0 100px;
 }
-#dashboard-notice ul li{padding-bottom:5px; color:#fff;}
+#dashboard-notice ul li{padding-bottom:5px; color:#ff0000;}
+#dashboard-notice .lsn_col1{background: #fff;}
+#dashboard-notice .lsn_col1 p {margin-left:10px; font-weight: bold; font-size: 14px; color: #ff0000; text-decoration: underline;}
 
 /************** Leaves styles *****************/
 #new_lms_leave input[type=text], #new_lms_leave select, .new_lms_public_holiday input[type=text], .edit_lms_public_holiday input[type=text]{width:200px;}

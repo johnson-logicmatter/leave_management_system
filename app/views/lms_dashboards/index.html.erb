@@ -44,9 +44,10 @@
     <div class="ls_row seperator"></div>
     <div id="dashboard-notice" class="ls_row lsn_row">
       <span  class="lsn_col1">
+        <p>Eligibility</p>
         <ul>
-	  <li>You can apply leaves for current calendar year only.</li>
 	  <% if @yearly_settings.work_from_home %><li>Maximum <%= truncate_trailing_zero(@leave_summary.tot_wfh) %> day(s) work from home only allowed per month</li><% end %>
+	  <li>You can apply leaves for current calendar year only.</li>
 	</ul>
       </span>
     </div>

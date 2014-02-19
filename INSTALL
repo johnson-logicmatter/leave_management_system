@@ -18,7 +18,7 @@
 
 == How to uninstall
 	=== Rollback the migrations
-		* rake redmine:plugins:migration NAME=leave_management_system VERSION=0 RAILS_ENV=production
+		* rake redmine:plugins:migrate NAME=leave_management_system VERSION=0 RAILS_ENV=production
 	=== Remove the redmine_leave_management_system plugins folder from redmine app's plugins folder
 	=== Restart the server
 
@@ -47,6 +47,7 @@
 		* Reporters can view the leave histories - taken leaves and available leaves, leave details etc. - of all employees
 		* Automatically generate leave account for an employee from current month till year end when an employee will be added to applier groups in redmine.
 	=== LMS Settings
+		* Can setup leave policies every year.
 		* Leave types - create/edit/delete any leave type like Medical leave, Casual leave, etc.
 		* General Settings - Work from home policy, carry forward policy, weekends
 		* Generate Leave accounts - While generating leave accounts, LMS will generate leave accounts from current month till year end and add/remove leave types to/from current year leave account.

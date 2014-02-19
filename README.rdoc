@@ -75,10 +75,15 @@ This is a redmine plugin helps to manage employees leave account of an employer
 
 * First release
 
-==== 0.0.1 (patch)
+==== 0.0.1 (patch1)
 
 * Fixed Apply leave failure bug
 * Now supports in Redmine 2.2.x, 2.3.x, 2.4.x also
+
+=== 0.0.1 (patch2)
+
+* Generate leave accounts from beginning of year
+* Creates leave account when add an user in leave appliers group
 
 === Repository
 

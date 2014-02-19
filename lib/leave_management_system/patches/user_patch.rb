@@ -7,6 +7,7 @@ module LeaveManagementSystem
         base.class_eval do
 	  unloadable
 	  include InstanceMethods
+	  extend ClassMethods
 	  after_save :create_leave_account
 	  private :create_leave_account
 	end
@@ -17,7 +18,7 @@ module LeaveManagementSystem
 	  yearly_settings = LmsYearlySetting.current_year_settings
 	  employee = self.becomes Employee
 	  if LeaveManagementSystem.user_has_role?(self, LeaveManagementSystem::ROLES[:al]) && yearly_settings && !employee.current_year_leave_history
-	    fields = {:lms_yearly_setting_id => yearly_settings.id, :tot_carry_forward => 0, :total_leaves => 0}
+	    fields = {:lms_yearly_setting_id => yearly_settings.id, :tot_carry_forward => 0, :total_leaves => 0, :month_start => Date.today.month}
 	    leave_types = yearly_settings.leave_types
 	    leave_types.each do |lt|
 	      fields.merge! "tot_#{lt.identifier}".to_sym => yearly_settings.send("tot_#{lt.identifier}")
@@ -26,6 +27,12 @@ module LeaveManagementSystem
 	    fields.merge!(:tot_wfh => yearly_settings.work_from_home_limit) if yearly_settings.work_from_home
 	    employee.lms_yearly_leave_histories.create fields
 	  end
+	end
+      end
+    
+      module ClassMethods
+	def create_leave_accounts users
+	  users.each {|u| u.send :create_leave_account}
 	end
       end
     end

@@ -23,7 +23,7 @@ class LmsLeavesController < ApplicationController
     if @leave.valid?
       monthly_history = LmsMonthlyLeaveHistory.find(:first, :conditions => {:user_id => @current_month_leave_history.user_id, :lms_yearly_leave_history_id => @current_month_leave_history.lms_yearly_leave_history_id, :month => params[:lms_leave][:from_date].to_date.month})
       unless monthly_history
-        @leave.errors.add :base, "You can't apply leave in this month"
+        @leave.errors.add :base, "You can't apply leave in #{params[:lms_leave][:from_date].to_date.strftime '%B'} month"
 	respond_to do |format|
           format.js {render :action => :new}
         end && return
