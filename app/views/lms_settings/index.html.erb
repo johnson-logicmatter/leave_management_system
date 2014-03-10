@@ -2,7 +2,7 @@
 <div id="lms_box1" class="lms_box">
   <div class="box_title">
     <% if @yearly_settings.present? %><div id="new_public_holiday_link"><%= link_to "Add Holiday", new_lms_public_holiday_path, :remote => true %></div><% end %>
-    <h2>Public Holidays 2013</h2>
+    <h2>Public Holidays <%= Date.today.year %></h2>
   </div>
   <div class="box_content">
     <div id="public_holidays_frame">
